@@ -21,8 +21,8 @@ namespace MeGustaLaPelicula.Models
         public int Classificacao { get; set; }
     }
 
-    public class FilmeDBContext : DbContext
-    {
-        public DbSet<Filme> Filmes { get; set; }
-    }
+    //public class FilmeDBContext : DbContext
+    //{
+    //    public DbSet<Filme> Filmes { get; set; }
+    //}
 }
