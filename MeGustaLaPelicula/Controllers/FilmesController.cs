@@ -28,10 +28,11 @@ namespace MeGustaLaPelicula.Controllers
         [Authorize]
         public ActionResult meusfilmes()
         {
-           return View(new FilmesViewModel
+            return View(new FilmesViewModel
             {
                 Filmes = db.Users.Find(User.Identity.GetUserId()).Filmes.ToList(),
-                User = db.Users.Find(User.Identity.GetUserId())
+                User = db.Users.Find(User.Identity.GetUserId()),
+                 UserFilmes = db.UserFilmes.ToList()
             });
         }
         
@@ -74,6 +75,10 @@ namespace MeGustaLaPelicula.Controllers
             }
             //adicionar o filme ao utilizador logged in
             db.Users.Find(User.Identity.GetUserId()).Filmes.Add(filme);
+            UserFilmes newmovie = new UserFilmes();
+            newmovie.Filme = filme;
+            newmovie.User = db.Users.Find(User.Identity.GetUserId());
+            db.UserFilmes.Add(newmovie);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

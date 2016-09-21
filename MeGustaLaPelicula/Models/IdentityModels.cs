@@ -33,5 +33,6 @@ namespace MeGustaLaPelicula.Models
         }
 
         public System.Data.Entity.DbSet<MeGustaLaPelicula.Models.Filme> Filmes { get; set; }
+        public System.Data.Entity.DbSet<MeGustaLaPelicula.Models.UserFilmes> UserFilmes { get; set; }
     }
 }
