@@ -46,7 +46,7 @@ namespace MeGustaLaPelicula.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FilmeID,Titulo,Ano,Realizador,Genero,Classificacao")] Filme filme)
+        public ActionResult Create([Bind(Include = "FilmeID,Titulo,Ano,Realizador,Genero")] Filme filme)
         {
             if (ModelState.IsValid)
             {
