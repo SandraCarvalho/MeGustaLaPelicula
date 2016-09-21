@@ -18,14 +18,23 @@ namespace MeGustaLaPelicula.Controllers
         // GET: Filmes
         public ActionResult Index()
         {
-            return View(db.Filmes.ToList());
+            return View(new FilmesViewModel
+            {
+                Filmes = db.Filmes.ToList(),
+                User = db.Users.Find(User.Identity.GetUserId())
+            });
         }
-        /*// /website/filmes/indexes mostra apenas os filmes que o utilizador tem associados a propria conta (nota que falha se nao tiver login)
-        public ActionResult Indexes()
+        // /website/filmes/meusfilmes mostra apenas os filmes que o utilizador tem associados a propria conta (nota que falha se nao tiver login)
+        [Authorize]
+        public ActionResult meusfilmes()
         {
-            return View(db.Users.Find(User.Identity.GetUserId()).Filmes.ToList());
+           return View(new FilmesViewModel
+            {
+                Filmes = db.Users.Find(User.Identity.GetUserId()).Filmes.ToList(),
+                User = db.Users.Find(User.Identity.GetUserId())
+            });
         }
-        */
+        
         // GET: Filmes/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,24 +49,61 @@ namespace MeGustaLaPelicula.Controllers
             }
             return View(filme);
         }
-        /*
-        // GET: Filmes/test/1 por exemplo adiciona o filme com ID = 1 ao user que estiver logged in
-        public ActionResult test(int? id)
+        
+        // GET: Filmes/adicionarfilme/1 por exemplo adiciona o filme com ID = 1 ao user que estiver logged in
+        [Authorize]
+        public ActionResult adicionarfilme(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            //o parametro passado vem do link. /filmes/adicionarfilme/1
             Filme filme = db.Filmes.Find(id);
             if (filme == null)
             {
                 return HttpNotFound();
             }
+            //verificação se ja existe a relação entre user e filme
+            foreach (var item in db.Users.Find(User.Identity.GetUserId()).Filmes)
+            {
+                if (item.FilmeID.Equals(filme.FilmeID))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+            //adicionar o filme ao utilizador logged in
             db.Users.Find(User.Identity.GetUserId()).Filmes.Add(filme);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        */
+
+        // GET: Filmes/removerfilme/1 por exemplo adiciona o filme com ID = 1 ao user que estiver logged in
+        [Authorize]
+        // o ? no parametro diz que pode ser null. neste caso tiramos porque nao pode ser
+        public ActionResult removerfilme(int id)
+        {
+            //o parametro passado vem do link. /filmes/...lme/1
+            Filme filme = db.Filmes.Find(id);
+            if (filme == null)
+            {
+                return HttpNotFound();
+            }
+            //verificação se ja existe a relação entre user e filme
+            //neste caso ja podemos usar a verificação para garantir que tiramos o certo
+            // nota: fazer return dentro do metodo senao partimos o foreach ao mudarmos a database :p
+            foreach (var item in db.Users.Find(User.Identity.GetUserId()).Filmes)
+            {
+                if (item.FilmeID.Equals(filme.FilmeID))
+                {
+                    db.Users.Find(User.Identity.GetUserId()).Filmes.Remove(filme);
+                    db.SaveChanges();
+                    return RedirectToAction("meusfilmes");
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         // GET: Filmes/Create
         public ActionResult Create()
         {

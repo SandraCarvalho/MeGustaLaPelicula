@@ -1,32 +1,32 @@
-﻿@model IEnumerable<MeGustaLaPelicula.Models.Filme>
+﻿@model MeGustaLaPelicula.Models.FilmesViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Filmes";
 }
 
-<h2>Index</h2>
+<h2>Filmes disponíveis</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
+        <!-- este código vai buscar apenas a descrição do campo
+            o nosso model tem um User e uma lista de filmes, usamos um filme random (firstordefault) só para usar os detalhes do campo -->
         <th>
-            @Html.DisplayNameFor(model => model.Titulo)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Titulo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ano)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Ano)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Realizador)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Realizador)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genero)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Genero)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Filmes)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Titulo)
@@ -40,10 +40,37 @@
         <td>
             @Html.DisplayFor(modelItem => item.Genero)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.FilmeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.FilmeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.FilmeID })
+        <td>@{ /*}
+      @Html.ActionLink("Edit", "Edit", new { id=item.FilmeID }) |
+      @Html.ActionLink("Details", "Details", new { id=item.FilmeID }) |
+      @Html.ActionLink("Delete", "Delete", new { id=item.FilmeID })
+      */
+        }
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    //iniciamos um contador e um loop que vai percorrer a lista de todos os filmes do user e comparar com o filme actual (item)
+                    int count = 0;
+                    foreach (var movie in Model.User.Filmes)
+                    {
+                        if (movie.Equals(item))
+                        {
+                            count++;
+                        }
+                    }
+                    //caso nao exista nenhum podemos dar a opção de adicionar à lista
+                    if (count == 0)
+                    {
+                        @Html.ActionLink("Adicionar aos meus filmes", "adicionarfilme", new { id = item.FilmeID })
+                    }
+                    /* caso exista podemos dar a opção de remover
+                    else
+                    {
+                        @Html.ActionLink("Remover dos meus filmes", "removerfilme", new { id = item.FilmeID })
+                    }*/
+                }
+            }
+
         </td>
     </tr>
 }
