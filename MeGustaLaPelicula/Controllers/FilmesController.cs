@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MeGustaLaPelicula.Models;
+using Microsoft.AspNet.Identity;
 
 namespace MeGustaLaPelicula.Controllers
 {
@@ -19,7 +20,12 @@ namespace MeGustaLaPelicula.Controllers
         {
             return View(db.Filmes.ToList());
         }
-
+        /*// /website/filmes/indexes mostra apenas os filmes que o utilizador tem associados a propria conta (nota que falha se nao tiver login)
+        public ActionResult Indexes()
+        {
+            return View(db.Users.Find(User.Identity.GetUserId()).Filmes.ToList());
+        }
+        */
         // GET: Filmes/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,7 +40,24 @@ namespace MeGustaLaPelicula.Controllers
             }
             return View(filme);
         }
-
+        /*
+        // GET: Filmes/test/1 por exemplo adiciona o filme com ID = 1 ao user que estiver logged in
+        public ActionResult test(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Filme filme = db.Filmes.Find(id);
+            if (filme == null)
+            {
+                return HttpNotFound();
+            }
+            db.Users.Find(User.Identity.GetUserId()).Filmes.Add(filme);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        */
         // GET: Filmes/Create
         public ActionResult Create()
         {

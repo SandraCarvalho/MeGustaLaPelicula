@@ -13,7 +13,7 @@ namespace MeGustaLaPelicula.Models
         [Display(Name = "User")]
         public string UserId { get; set; }
         [Required]
-        public int FilmeID { get; set; }
+        public int FilmeId { get; set; }
         public int Classificacao { get; set; }
     }
 }
