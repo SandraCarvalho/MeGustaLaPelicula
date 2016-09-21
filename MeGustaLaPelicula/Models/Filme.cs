@@ -18,7 +18,6 @@ namespace MeGustaLaPelicula.Models
         [Required]
         public string Realizador { get; set; }
         public string Genero { get; set; }
-        public int Classificacao { get; set; }
     }
 
     //public class FilmeDBContext : DbContext
