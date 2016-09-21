@@ -31,5 +31,7 @@ namespace MeGustaLaPelicula.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<MeGustaLaPelicula.Models.Filme> Filmes { get; set; }
     }
 }
