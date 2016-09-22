@@ -1,5 +1,6 @@
 namespace MeGustaLaPelicula.Migrations
 {
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -27,6 +28,41 @@ namespace MeGustaLaPelicula.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            context.Filmes.AddOrUpdate(x => x.FilmeID,
+                new Filme()
+                {
+                    FilmeID = 1,
+                    Titulo = "Pride and Prejudice",
+                    Ano = 1953,
+                    Realizador = "Bacalhau",
+                    Genero = "CLASSICO"
+                },
+                new Filme()
+                {
+                    FilmeID = 2,
+                    Titulo = "Balas e Bolinhos",
+                    Ano = 2000,
+                    Realizador = "Bino",
+                    Genero = "LOL"
+                },
+                new Filme()
+                {
+                    FilmeID = 3,
+                    Titulo = "Ataque Nocturno",
+                    Ano = 1978,
+                    Realizador = "Charles Bronson",
+                    Genero = "PORRADA"
+                },
+                new Filme()
+                {
+                    FilmeID = 4,
+                    Titulo = "Star Wars",
+                    Ano = 1980,
+                    Realizador = "Darth Vader",
+                    Genero = "ACÇÃO"
+                }
+                );
         }
     }
 }
