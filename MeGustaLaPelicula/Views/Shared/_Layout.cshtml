@@ -17,14 +17,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("GoodMovies", "meusFilmes", "Filmes", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("GoodMovies", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Os meus filmes", "meusfilmes", "Filmes")</li>
+                    <li>@Html.ActionLink("Filmes", "Index", "Filmes")</li>
+                    @{ 
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            @:<li>@Html.ActionLink("Os meus filmes", "meusfilmes", "Filmes")</li>
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
