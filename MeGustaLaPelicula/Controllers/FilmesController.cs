@@ -21,17 +21,33 @@ namespace MeGustaLaPelicula.Controllers
             return View(new FilmesViewModel
             {
                 Filmes = db.Filmes.ToList(),
-                User = db.Users.Find(User.Identity.GetUserId())
+                User = db.Users.Find(User.Identity.GetUserId()),
+                UserFilmes = db.UserFilmes.ToList()
             });
         }
         // /website/filmes/meusfilmes mostra apenas os filmes que o utilizador tem associados a propria conta (nota que falha se nao tiver login)
         [Authorize]
         public ActionResult meusfilmes()
         {
-           return View(new FilmesViewModel
+            List<Filme> myfilmes = new List<Filme>();
+            List<int> tempmovies = new List<int>();
+            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            foreach (var filme in db.UserFilmes)
             {
-                Filmes = db.Users.Find(User.Identity.GetUserId()).Filmes.ToList(),
-                User = db.Users.Find(User.Identity.GetUserId())
+                if (user.Equals(filme.User))
+                {
+                    tempmovies.Add(filme.FilmeID);
+                }
+            }
+            foreach (var item in tempmovies)
+            {
+                myfilmes.Add(db.Filmes.Find(item));
+            }
+            return View(new FilmesViewModel
+            {
+                Filmes = myfilmes,
+                User = user,
+                 UserFilmes = db.UserFilmes.ToList()
             });
         }
         
@@ -65,15 +81,19 @@ namespace MeGustaLaPelicula.Controllers
                 return HttpNotFound();
             }
             //verificação se ja existe a relação entre user e filme
-            foreach (var item in db.Users.Find(User.Identity.GetUserId()).Filmes)
+            foreach (var item in db.UserFilmes)
             {
-                if (item.FilmeID.Equals(filme.FilmeID))
+                if (item.FilmeID.Equals(filme.FilmeID) && item.UserId.Equals(User.Identity.GetUserId()))
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
             //adicionar o filme ao utilizador logged in
-            db.Users.Find(User.Identity.GetUserId()).Filmes.Add(filme);
+            //db.Users.Find(User.Identity.GetUserId()).Filmes.Add(filme);
+            UserFilmes newmovie = new UserFilmes();
+            newmovie.Filme = filme;
+            newmovie.User = db.Users.Find(User.Identity.GetUserId());
+            db.UserFilmes.Add(newmovie);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -92,14 +112,20 @@ namespace MeGustaLaPelicula.Controllers
             //verificação se ja existe a relação entre user e filme
             //neste caso ja podemos usar a verificação para garantir que tiramos o certo
             // nota: fazer return dentro do metodo senao partimos o foreach ao mudarmos a database :p
-            foreach (var item in db.Users.Find(User.Identity.GetUserId()).Filmes)
+            UserFilmes removeme = null;
+            foreach (var item in db.UserFilmes)
             {
-                if (item.FilmeID.Equals(filme.FilmeID))
+                if (item.FilmeID.Equals(filme.FilmeID) && item.UserId.Equals(User.Identity.GetUserId()))
                 {
-                    db.Users.Find(User.Identity.GetUserId()).Filmes.Remove(filme);
-                    db.SaveChanges();
-                    return RedirectToAction("meusfilmes");
+                    //db.Users.Find(User.Identity.GetUserId()).Filmes.Remove(filme);
+                    removeme = item;
                 }
+            }
+            if (removeme != null)
+            {
+                db.UserFilmes.Remove(removeme);
+                db.SaveChanges();
+                return RedirectToAction("meusfilmes");
             }
             return RedirectToAction("Index");
         }

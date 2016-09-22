@@ -9,5 +9,6 @@ namespace MeGustaLaPelicula.Models
     {
         public List<Filme> Filmes { get; set; }
         public ApplicationUser User { get; set; }
+        public List<UserFilmes> UserFilmes { get; set; }
     }
 }

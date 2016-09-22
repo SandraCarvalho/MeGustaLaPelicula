@@ -51,9 +51,9 @@
                 {
                     //iniciamos um contador e um loop que vai percorrer a lista de todos os filmes do user e comparar com o filme actual (item)
                     int count = 0;
-                    foreach (var movie in Model.User.Filmes)
+                    foreach (var movie in Model.UserFilmes)
                     {
-                        if (movie.Equals(item))
+                        if (movie.Filme.Equals(item) && movie.User.Equals(Model.User))
                         {
                             count++;
                         }
