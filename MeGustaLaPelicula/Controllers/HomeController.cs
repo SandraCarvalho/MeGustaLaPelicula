@@ -15,14 +15,14 @@ namespace MeGustaLaPelicula.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Esta aplicação foi desenvolvida no âmbito da criação de um tutorial interno.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Onde podemos ser contactados.";
 
             return View();
         }
