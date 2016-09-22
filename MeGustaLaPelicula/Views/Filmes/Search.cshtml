@@ -1,30 +1,33 @@
-﻿@model IQueryable<MeGustaLaPelicula.Models.Filme>
+﻿@using MeGustaLaPelicula.Models;
+@model FilmesViewModel
 
 @{
     ViewBag.Title = "Filmes";
 }
 
 <h2>Filmes Filtrados</h2>
+@Html.ActionLink("Mostrar todos os filmes", "Index")<hr />
+@Html.Partial("_searchpartial", new SearchModel())
 <table class="table">
     <tr>
         <!-- este código vai buscar apenas a descrição do campo
             o nosso model tem um User e uma lista de filmes, usamos um filme random (firstordefault) só para usar os detalhes do campo -->
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Titulo)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Titulo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Ano)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Ano)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Realizador)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Realizador)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Genero)
+            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Genero)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Filmes)
 {
     <tr>
         <td>
@@ -47,7 +50,7 @@
         }
             @{
                 if (User.Identity.IsAuthenticated)
-                {/*
+                {
                     //iniciamos um contador e um loop que vai percorrer a lista de todos os filmes do user e comparar com o filme actual (item)
                     int count = 0;
                     foreach (var movie in Model.UserFilmes)
@@ -62,11 +65,11 @@
                     {
                         @Html.ActionLink("Adicionar aos meus filmes", "adicionarfilme", new { id = item.FilmeID })
                     }
-                    /* caso exista podemos dar a opção de remover
+                    // caso exista podemos dar a opção de remover
                     else
                     {
                         @Html.ActionLink("Remover dos meus filmes", "removerfilme", new { id = item.FilmeID })
-                    }*/
+                    }
                 }
             }
 
