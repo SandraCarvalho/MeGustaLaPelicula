@@ -153,6 +153,28 @@ namespace MeGustaLaPelicula.Controllers
             return View(filme);
         }
 
+        public ActionResult Search(string Id)
+        {
+            if (Id == null || Id == "")
+            {
+                return RedirectToAction("Index");
+            }
+            List<Filme> filmes = new List<Filme>();
+            foreach (var filme in db.Filmes)
+            {
+                if (filme.Titulo.ToUpper().Contains(Id.ToUpper()))
+                {
+                    filmes.Add(filme);
+                }
+            }
+            return View(new FilmesViewModel
+            {
+                Filmes = filmes,
+                User = db.Users.Find(User.Identity.GetUserId()),
+                UserFilmes = db.UserFilmes.ToList()
+            });
+        }
+
         // GET: Filmes/Edit/5
         public ActionResult Edit(int? id)
         {
