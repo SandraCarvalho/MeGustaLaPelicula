@@ -20,7 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Genero)
         </th>
-        <th>@Html.DisplayNameFor(model => model.UserFilmes.FirstOrDefault().Classificacao)</th>
+        <th><!--@Html.DisplayNameFor(model => model.UserFilmes.FirstOrDefault().Classificacao)--></th>
     </tr>
 @foreach (var item in Model.Filmes)
 {
@@ -38,14 +38,14 @@
             @Html.DisplayFor(modelItem => item.Genero)
         </td>
         <td>
-            @{
+            @{/*
                 foreach (var usermovie in Model.UserFilmes)
                 {
-                    if (usermovie.Filme.Equals(item) && usermovie.User.Equals(Model.User))
+                    if (usermovie.FilmeID.Equals(item.FilmeID) && usermovie.User.Equals(Model.User))
                     {
                         Html.DisplayFor(modelItem => usermovie.Classificacao);//FIX ME PLEASE!!!
                     }
-                }
+                }*/
             }
         </td>
         <td>@{ /*}
