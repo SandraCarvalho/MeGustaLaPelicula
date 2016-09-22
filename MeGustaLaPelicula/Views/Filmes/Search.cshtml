@@ -1,10 +1,13 @@
-﻿@model IQueryable<MeGustaLaPelicula.Models.Filme>
+﻿@using MeGustaLaPelicula.Models;
+@model IQueryable<MeGustaLaPelicula.Models.Filme>
 
 @{
     ViewBag.Title = "Filmes";
 }
 
 <h2>Filmes Filtrados</h2>
+@Html.ActionLink("Mostrar todos os filmes", "Index")<hr />
+@Html.Partial("_searchpartial", new SearchModel())
 <table class="table">
     <tr>
         <!-- este código vai buscar apenas a descrição do campo
