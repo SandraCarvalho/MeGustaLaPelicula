@@ -1,34 +1,30 @@
-﻿@model MeGustaLaPelicula.Models.FilmesViewModel
+﻿@model IQueryable<MeGustaLaPelicula.Models.Filme>
 
 @{
     ViewBag.Title = "Filmes";
 }
 
 <h2>Filmes Filtrados</h2>
-<form id="search" action="/filmes/search" method="get">
-    <input id="Id" name="Id" value="" style="width:100px;" />
-    <input id="submit" type="submit" style="font-weight:bold;" value="Search" />
-</form>
 <table class="table">
     <tr>
         <!-- este código vai buscar apenas a descrição do campo
             o nosso model tem um User e uma lista de filmes, usamos um filme random (firstordefault) só para usar os detalhes do campo -->
         <th>
-            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Titulo)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Titulo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Ano)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ano)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Realizador)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Realizador)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Filmes.FirstOrDefault().Genero)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Genero)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model.Filmes)
+@foreach (var item in Model)
 {
     <tr>
         <td>
@@ -51,7 +47,7 @@
         }
             @{
                 if (User.Identity.IsAuthenticated)
-                {
+                {/*
                     //iniciamos um contador e um loop que vai percorrer a lista de todos os filmes do user e comparar com o filme actual (item)
                     int count = 0;
                     foreach (var movie in Model.UserFilmes)

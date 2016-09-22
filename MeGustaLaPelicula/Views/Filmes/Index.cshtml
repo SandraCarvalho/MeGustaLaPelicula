@@ -1,14 +1,12 @@
-﻿@model MeGustaLaPelicula.Models.FilmesViewModel
+﻿@using MeGustaLaPelicula.Models;
+@model MeGustaLaPelicula.Models.FilmesViewModel
 
 @{
     ViewBag.Title = "Filmes";
 }
 
 <h2>Filmes disponíveis</h2>
-<form id="search" action="/filmes/search" method="get">
-    <input id="Id" name="Id" value="" style="width:100px;" />
-    <input id="submit" type="submit" style="font-weight:bold;" value="Search" />
-</form>
+@Html.Partial("_searchpartial", new SearchModel())
 <table class="table">
     <tr>
         <!-- este código vai buscar apenas a descrição do campo

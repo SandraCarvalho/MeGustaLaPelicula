@@ -208,6 +208,8 @@
     <Compile Include="Models\FilmesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SearchLogic.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -278,6 +280,7 @@
     <Content Include="Views\Filmes\Index.cshtml" />
     <Content Include="Views\Filmes\meusfilmes.cshtml" />
     <Content Include="Views\Filmes\Search.cshtml" />
+    <Content Include="Views\Filmes\_searchpartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

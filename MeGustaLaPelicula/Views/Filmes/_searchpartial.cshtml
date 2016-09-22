@@ -1,0 +1,42 @@
+﻿@model MeGustaLaPelicula.Models.SearchModel
+
+@using (Html.BeginForm("search", "Filmes", FormMethod.Get))
+{
+    @Html.ValidationSummary(true)
+    <h4>Filtrar por:</h4>
+    <table class="table">
+        <tr>
+            <td>
+
+        @Html.LabelFor(m => m.titulo)
+        @Html.EditorFor(m => m.titulo)
+        @Html.ValidationMessageFor(m => m.titulo)
+        <br />
+            </td>
+            <td>
+
+        @Html.LabelFor(m => m.ano)
+        @Html.EditorFor(m => m.ano)
+        @Html.ValidationMessageFor(m => m.ano)
+        <br />
+            </td>
+            <td>
+
+        @Html.LabelFor(m => m.realizador)
+        @Html.EditorFor(m => m.realizador)
+        @Html.ValidationMessageFor(m => m.realizador)
+        <br />
+            </td>
+            <td>
+
+        @Html.LabelFor(m => m.genero)
+        @Html.EditorFor(m => m.genero)
+        @Html.ValidationMessageFor(m => m.genero)
+        <br />
+            </td>
+        </tr>
+        <tr><td>
+        <input type="submit" value="Filtrar" />
+            </td></tr>
+        </table>
+        }

@@ -18,6 +18,7 @@ namespace MeGustaLaPelicula.Controllers
         // GET: Filmes
         public ActionResult Index()
         {
+            //hack             
             return View(new FilmesViewModel
             {
                 Filmes = db.Filmes.ToList(),
@@ -153,26 +154,24 @@ namespace MeGustaLaPelicula.Controllers
             return View(filme);
         }
 
-        public ActionResult Search(string Id)
+        public ActionResult Search(SearchModel searchmodel)
         {
-            if (Id == null || Id == "")
-            {
-                return RedirectToAction("Index");
-            }
-            List<Filme> filmes = new List<Filme>();
-            foreach (var filme in db.Filmes)
-            {
-                if (filme.Titulo.ToUpper().Contains(Id.ToUpper()))
-                {
-                    filmes.Add(filme);
-                }
-            }
-            return View(new FilmesViewModel
-            {
-                Filmes = filmes,
-                User = db.Users.Find(User.Identity.GetUserId()),
-                UserFilmes = db.UserFilmes.ToList()
-            });
+            /* if (Id == null || Id == "")
+             {
+                 return RedirectToAction("Index");
+             }
+             List<Filme> filmes = new List<Filme>();
+             // search por título
+             foreach (var filme in db.Filmes)
+             {
+                 if (filme.Titulo.ToUpper().Contains(Id.ToUpper()))
+                 {
+                     filmes.Add(filme);
+                 }
+             }*/
+            var search = new SearchLogic(db);
+            var model = search.GetProducts(searchmodel);
+            return View(model);
         }
 
         // GET: Filmes/Edit/5
